@@ -16,10 +16,22 @@ def ask_llm(prompt:str)->str:
         }
     }
 
-    response=requests.post(
-        url=MODEL_URL,
-        json=payload,
-        headers=HEADERS,
-        timeout=30
-    )
-    print(response)
+    try:
+
+        response=requests.post(
+            url=MODEL_URL,
+            json=payload,
+            headers=HEADERS,
+            timeout=30
+        )
+        print(response)
+        response.raise_for_status()
+        data = response.json()
+        print(data)
+        if isinstance(data, list) and "generated_text" in data[0]:
+                return data[0]["generated_text"]
+
+        return "🤖 I couldn't generate a response."
+    except requests.exceptions.RequestException as e:
+        print("HF Error:", e)
+        return "⚠️ AI service is busy. Try again later."
