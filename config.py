@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+load_dotenv('.env.local')
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 HF_TOKEN=os.getenv("HF_TOKEN")
 MODEL_URL= (
